@@ -415,32 +415,31 @@ while program_jalan:
                     break
 
             if not batal:
-                print("Produk :", produk[kode][0], "(stok", produk[kode][2], ")")
+                print("Produk :", produk[kode][0], "(stok tersedia:", produk[kode][2], ")")
                 sudah = 0
                 if kode in keranjang:
                     sudah = keranjang[kode]
                     print("(Sudah ada", sudah, "di keranjang)")
 
-                if sudah >= produk[kode][2]:
-                    print("\nJumlah di keranjang sudah mencapai stok maksimal!")
-                else:
-                    while True:
-                        jumlah = input("Jumlah beli : ")
-                        if jumlah == "exit":
-                            batal = True
-                            break
-                        if not jumlah.isdigit() or int(jumlah) <= 0:
-                            print("Jumlah harus angka lebih dari 0!")
-                        elif sudah + int(jumlah) > produk[kode][2]:
-                            print("Jumlah melebihi stok yang tersedia!")
-                        else:
-                            break
-
-                    if batal:
-                        print("\nDibatalkan.")
+                while True:
+                    jumlah = input("Jumlah beli : ")
+                    if jumlah == "exit":
+                        batal = True
+                        break
+                    if not jumlah.isdigit() or int(jumlah) <= 0:
+                        print("Jumlah harus angka lebih dari 0!")
+                    elif int(jumlah) > produk[kode][2]:
+                        print("Jumlah melebihi stok yang tersedia!")
                     else:
-                        keranjang[kode] = sudah + int(jumlah)
-                        print("\nBarang berhasil masuk keranjang!")
+                        break
+
+                if batal:
+                    print("\nDibatalkan.")
+                else:
+                    jml_beli = int(jumlah)
+                    keranjang[kode] = sudah + jml_beli
+                    produk[kode][2] -= jml_beli
+                    print("\nBarang berhasil masuk keranjang!")
             else:
                 print("\nDibatalkan.")
 
@@ -475,26 +474,28 @@ while program_jalan:
 
                 if not batal:
                     kode = daftar[int(nomor) - 1]
-                    stok = produk[kode][2]
-                    if stok == 0:
-                        print("Stok habis. Silakan batalkan item (menu 6).")
-                    else:
-                        while True:
-                            baru = input("Jumlah baru (maks " + str(stok) + "): ")
-                            if baru == "exit":
-                                batal = True
-                                break
-                            if not baru.isdigit() or int(baru) <= 0:
-                                print("Jumlah harus angka lebih dari 0!")
-                            elif int(baru) > stok:
-                                print("Jumlah melebihi stok!")
-                            else:
-                                break
-                        if batal:
-                            print("\nDibatalkan.")
+                    qty_lama = keranjang[kode]
+                    stok_tersedia = produk[kode][2]
+                    maks_beli = qty_lama + stok_tersedia
+
+                    while True:
+                        baru = input("Jumlah baru (maks " + str(maks_beli) + "): ")
+                        if baru == "exit":
+                            batal = True
+                            break
+                        if not baru.isdigit() or int(baru) <= 0:
+                            print("Jumlah harus angka lebih dari 0!")
+                        elif int(baru) > maks_beli:
+                            print("Jumlah melebihi stok!")
                         else:
-                            keranjang[kode] = int(baru)
-                            print("\nJumlah berhasil diubah!")
+                            break
+                    if batal:
+                        print("\nDibatalkan.")
+                    else:
+                        qty_baru = int(baru)
+                        produk[kode][2] += (qty_lama - qty_baru)
+                        keranjang[kode] = qty_baru
+                        print("\nJumlah berhasil diubah!")
                 else:
                     print("\nDibatalkan.")
 
@@ -521,6 +522,7 @@ while program_jalan:
 
                 if not batal:
                     kode = daftar[int(nomor) - 1]
+                    produk[kode][2] += keranjang[kode]
                     print("\n'" + produk[kode][0] + "' dibatalkan dari keranjang.")
                     keranjang.pop(kode)
                 else:
@@ -562,7 +564,6 @@ while program_jalan:
                         harga = produk[kode][1]
                         print(produk[kode][0])
                         print("  ", qty, "x", harga, "=", qty * harga)
-                        produk[kode][2] -= qty
                     print("-" * 40)
                     print("TOTAL   : Rp", total_k)
                     print("BAYAR   : Rp", bayar)
@@ -575,6 +576,8 @@ while program_jalan:
 
         elif pilihan == "0":
             if len(keranjang) > 0:
+                for kode in keranjang:
+                    produk[kode][2] += keranjang[kode]
                 print("Keranjang yang belum dibayar akan dikosongkan.")
             user_aktif = ""
             keranjang = {}
