@@ -594,4 +594,5 @@ while program_jalan:
 
     if program_jalan:
         input("\nTekan Enter untuk lanjut...")
+
         
