@@ -1,7 +1,3 @@
-# stok.py
-# Fitur yang dipakai admin DAN user (supaya admin.py dan kasir.py
-# tidak saling mengimpor)
-
 from colorama import Fore
 from data import produk
 from validasi import input_valid, cek_kode_ada

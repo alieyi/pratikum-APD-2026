@@ -1,6 +1,3 @@
-# main.py
-# Titik masuk program (file inilah yang di-run)
-
 from colorama import init
 from data import users, sesi
 from tampilan import bersihkan_layar
@@ -47,5 +44,5 @@ def main():
 
 
 if __name__ == "__main__":
-    init(autoreset=True)  # colorama: warna otomatis reset & jalan di Windows
+    init(autoreset=True) 
     main()

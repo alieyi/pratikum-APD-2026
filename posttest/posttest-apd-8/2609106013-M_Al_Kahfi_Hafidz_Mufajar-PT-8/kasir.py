@@ -1,6 +1,3 @@
-# kasir.py
-# Fitur user/kasir
-
 from data import produk, keranjang, sesi
 from validasi import input_menu, input_angka, input_valid, cek_kode_ada_stok
 from perhitungan import hitung_total_keranjang

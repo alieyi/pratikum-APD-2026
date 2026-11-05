@@ -1,6 +1,3 @@
-# perhitungan.py
-# Logika hitung total belanja
-
 from data import produk, keranjang
 
 
@@ -18,6 +15,6 @@ def hitung_subtotal(kode):
 
 def hitung_total_rekursif(daftar_kode):
     """FUNGSI REKURSIF: menjumlahkan subtotal tiap item keranjang."""
-    if len(daftar_kode) == 0:  # basis
+    if len(daftar_kode) == 0:
         return 0
     return hitung_subtotal(daftar_kode[0]) + hitung_total_rekursif(daftar_kode[1:])

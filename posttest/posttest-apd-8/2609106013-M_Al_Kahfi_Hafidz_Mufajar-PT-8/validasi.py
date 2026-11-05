@@ -1,6 +1,3 @@
-# validasi.py
-# Input dari user dan fungsi pengecekan
-
 from colorama import Fore
 from data import produk, users, HURUF, ANGKA
 

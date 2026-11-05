@@ -1,6 +1,3 @@
-# auth.py
-# Login, register, logout
-
 from colorama import Fore
 from data import users, produk, keranjang, sesi
 from validasi import input_valid, cek_username_baru, cek_password_baru
